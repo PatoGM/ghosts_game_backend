@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/PatoGM/ghosts_game_backend#readme",
   "dependencies": {
-    "@fails-components/webtransport": "^0.0.3"
+    "@fails-components/webtransport": "^0.0.2"
   }
 }
