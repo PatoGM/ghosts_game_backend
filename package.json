@@ -1,0 +1,23 @@
+{
+  "name": "ghosts_game_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatoGM/ghosts_game_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PatoGM/ghosts_game_backend/issues"
+  },
+  "homepage": "https://github.com/PatoGM/ghosts_game_backend#readme",
+  "dependencies": {
+    "@fails-components/webtransport": "^0.0.3"
+  }
+}
