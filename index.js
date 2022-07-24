@@ -1,5 +1,5 @@
 import { Http3Server } from '@fails-components/webtransport'
-import { generateWebTransportCertificate } from './certificate.js'
+import { readFileSync } from 'fs'
 
 const attrs = [
     { shortName: 'C', value: 'USA' },
@@ -9,9 +9,17 @@ const attrs = [
     { shortName: 'CN', value: '127.0.0.1' }
 ]
 
-const certificate = await generateWebTransportCertificate(attrs, {
-    days: 13
-})
+// const certificate = await generateWebTransportCertificate(attrs, {
+//     days: 13
+// })
+
+// console.log(JSON.stringify(certificate))
+
+let cert_text = readFileSync("./cert.txt", "utf8")
+
+// console.log(cert_text)
+
+const certificate = JSON.parse(cert_text)
 
 console.log("Success!")
 console.log("Success 2!")
@@ -33,3 +41,5 @@ const stream = await server.sessionStream('/')
 const reader = stream.getReader()
 
 console.log(reader)
+
+console.log(certificate.hash)
