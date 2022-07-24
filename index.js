@@ -80,3 +80,36 @@ const reader = stream.getReader()
 console.log(reader)
 
 // console.log(certificate)
+
+while (true)
+{
+    const { done, value } = await reader.read()
+
+    if (done)
+    {
+        console.log('Server is gone')
+        break
+    }
+
+    console.log('got a newsession')
+
+    await value.ready
+
+    console.log('server session is ready')
+
+    const helpfunc = async () => 
+    {
+        try 
+        {
+            const err = await value.closed
+            console.log('server session was closed', err)
+        } 
+        catch (error) 
+        {
+            console.log('server session close error:', error)
+        }
+    }
+    helpfunc()
+
+    console.log("now what?")
+}
