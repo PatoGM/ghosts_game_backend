@@ -5,12 +5,13 @@ console.log("Success 2!")
 console.log("Success latest!")
 
 const server = new Http3Server
-(
-    {
-        port: 44331,
-        host: "127.0.0.1",
-    }
-)
+    (
+        {
+            port: 44331,
+            host: "127.0.0.1",
+            secret: "mysecret"
+        }
+    )
 
 const stream = await server.sessionStream('/')
 
