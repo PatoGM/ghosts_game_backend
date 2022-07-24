@@ -66,7 +66,7 @@ const server = new Http3Server
     (
         {
             port: 44331,
-            host: "127.0.0.1",
+            host: "0.0.0.0",
             secret: "mysecret",
             cert: certificate.cert,
             privKey: certificate.private
@@ -81,12 +81,10 @@ console.log(reader)
 
 // console.log(certificate)
 
-while (true)
-{
+while (true) {
     const { done, value } = await reader.read()
 
-    if (done)
-    {
+    if (done) {
         console.log('Server is gone')
         break
     }
@@ -97,15 +95,12 @@ while (true)
 
     console.log('server session is ready')
 
-    const helpfunc = async () => 
-    {
-        try 
-        {
+    const helpfunc = async () => {
+        try {
             const err = await value.closed
             console.log('server session was closed', err)
-        } 
-        catch (error) 
-        {
+        }
+        catch (error) {
             console.log('server session close error:', error)
         }
     }
