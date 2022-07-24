@@ -1,5 +1,5 @@
 import { Http3Server } from '@fails-components/webtransport'
-import { readFileSync } from 'fs'
+// import { readFileSync } from 'fs'
 
 const attrs = [
     { shortName: 'C', value: 'USA' },
@@ -62,7 +62,7 @@ console.log("Success!")
 console.log("Success 2!")
 console.log("Success latest!")
 
-const server = new Http3Server
+const http3server = new Http3Server
     (
         {
             port: 44331,
@@ -73,45 +73,125 @@ const server = new Http3Server
         }
     )
 
-const stream = await server.sessionStream('/')
-
-const reader = stream.getReader()
-
-console.log(reader)
-
 // console.log(certificate)
 
-async function main()
-{
-    while (true) {
-        const { done, value } = await reader.read()
-    
-        if (done) {
-            console.log('Server is gone')
-            break
-        }
-    
-        console.log('got a newsession')
-    
-        await value.ready
-    
-        console.log('server session is ready')
-    
-        const helpfunc = async () => {
-            try {
-                const err = await value.closed
-                console.log('server session was closed', err)
+// TEMP
+
+export async function incomingBidirectionalEchoTest(session) {
+    try {
+        const bidiReader = session.incomingBidirectionalStreams.getReader()
+        while (true) {
+            const bidistr = await bidiReader.read()
+            if (bidistr.done) {
+                console.log('bidiReader terminated')
+                break
             }
-            catch (error) {
-                console.log('server session close error:', error)
+            if (bidistr.value) {
+                // ok we got a stream
+                const bidistream = bidistr.value
+                // echo it
+                await bidistream.readable.pipeTo(bidistream.writable)
+                console.log('bidiReader finished piping')
             }
         }
-        helpfunc()
-    
-        console.log("now what?")
+    } catch (error) {
+        console.log('incoming bidiReader exited with', error)
     }
 }
 
-main()
+export async function outgoingBidirectionalEchoTest(session) {
+    try {
+        const mybidistream = await session.createBidirectionalStream()
+        await mybidistream.readable.pipeTo(mybidistream.writable)
+    } catch (error) {
+        console.log('outgoing bidiReader exited with', error)
+    }
+}
 
-server.startServer()
+export async function unidirectionalEchoTest(session) {
+    try {
+        const unidiReader = session.incomingUnidirectionalStreams.getReader()
+        while (true) {
+            const unidistr = await unidiReader.read()
+            if (unidistr.done) {
+                console.log('unidiReader terminated')
+                break
+            }
+            if (unidistr.value) {
+                // ok we got a stream
+                const unidistream = unidistr.value
+                // echo it
+                const uniwritable = await session.createUnidirectionalStream()
+                await unidistream.pipeTo(uniwritable)
+                console.log('unidiReader finished piping')
+            }
+        }
+    } catch (error) {
+        console.log('unidiReader exited with', error)
+    }
+}
+
+export async function datagramEchoTest(session) {
+    try {
+        session.datagrams.readable.pipeTo(session.datagrams.writable)
+    } catch (error) {
+        console.log('datagram echo exited with', error)
+    }
+}
+
+// END TEMP
+
+async function main(server) {
+    try {
+        const stream = await server.sessionStream('/')
+
+        const reader = stream.getReader()
+
+        while (true) {
+            const { done, value } = await reader.read()
+
+            if (done) {
+                console.log('Server is gone')
+                break
+            }
+
+            console.log('got a newsession')
+
+            await value.ready
+
+            console.log('server session is ready')
+
+            const helpfunc = async () => {
+                try {
+                    const err = await value.closed
+                    console.log('server session was closed', err)
+                }
+                catch (error) {
+                    console.log('server session close error:', error)
+                }
+            }
+            helpfunc()
+
+            // TEMP
+
+            // install BidirectionalEchoTest
+            incomingBidirectionalEchoTest(value)
+            // now send a bidirectional stream out
+            outgoingBidirectionalEchoTest(value)
+            unidirectionalEchoTest(value)
+            console.log('install datagram echo')
+            datagramEchoTest(value)
+
+            // END TEMP
+
+            console.log("now what?")
+        }
+    }
+    catch (error) {
+        console.log("ERROR:", error)
+    }
+}
+
+main(http3server)
+
+http3server.startServer()
