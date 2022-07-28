@@ -21,7 +21,7 @@ const attrs = [
 // console.log(cert_text)
 
 // const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
-const path = './node'
+const path = './index.js'
 
 // console.log(__dirname);
 // console.log(path.dirname(__filename));
