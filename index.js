@@ -31,7 +31,7 @@ try {
   {
     let cert_text = fs.readFileSync(path, "utf8")
     console.log(cert_text)
-    // console.log("found!")
+    console.log("found!")
   }
 } catch(err) {
   console.error(err)
