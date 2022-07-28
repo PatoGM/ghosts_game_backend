@@ -20,8 +20,8 @@ const attrs = [
 
 // console.log(cert_text)
 
-// const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
-const path = './home'
+const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
+// const path = './home'
 
 // console.log(__dirname);
 // console.log(path.dirname(__filename));
@@ -29,9 +29,9 @@ const path = './home'
 try {
   if (fs.existsSync(path))
   {
-    // let cert_text = fs.readFileSync(path, "utf8")
-    // console.log(cert_text)
-    console.log("found!")
+    let cert_text = fs.readFileSync(path, "utf8")
+    console.log(cert_text)
+    // console.log("found!")
   }
 } catch(err) {
   console.error(err)
