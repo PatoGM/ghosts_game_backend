@@ -20,7 +20,7 @@ const attrs = [
 
 // console.log(cert_text)
 
-const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
+const path = './cert.txt'
 // const path = './home'
 
 // console.log(__dirname);
