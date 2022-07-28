@@ -19,7 +19,7 @@ const attrs = [
 
 // console.log(cert_text)
 
-const path = './cert.txt'
+const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
 
 try {
   if (existsSync(path))
