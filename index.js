@@ -22,8 +22,10 @@ const attrs = [
 const path = './cert.txt'
 
 try {
-  if (existsSync(path)) {
-    //file exists
+  if (existsSync(path))
+  {
+    let cert_text = readFileSync(path, "utf8")
+    console.log(cert_text)
   }
 } catch(err) {
   console.error(err)
