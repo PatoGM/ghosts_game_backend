@@ -1,5 +1,6 @@
 import { Http3Server } from '@fails-components/webtransport'
-import { readFileSync, existsSync } from 'fs'
+// import { readFileSync, existsSync } from 'fs'
+import * as fs from 'node:fs'
 
 const attrs = [
     { shortName: 'C', value: 'USA' },
@@ -19,16 +20,18 @@ const attrs = [
 
 // console.log(cert_text)
 
-const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
+// const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
+const path = '../test'
 
 // console.log(__dirname);
-console.log(path.dirname(__filename));
+// console.log(path.dirname(__filename));
 
 try {
-  if (existsSync(path))
+  if (fs.existsSync(path))
   {
-    let cert_text = readFileSync(path, "utf8")
-    console.log(cert_text)
+    // let cert_text = fs.readFileSync(path, "utf8")
+    // console.log(cert_text)
+    console.log("found!")
   }
 } catch(err) {
   console.error(err)
