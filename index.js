@@ -133,7 +133,17 @@ export async function unidirectionalEchoTest(session) {
 
 export async function datagramEchoTest(session) {
     try {
-        session.datagrams.readable.pipeTo(session.datagrams.writable)
+        console.log(session)
+        console.log(session.datagrams)
+
+        const test = session.datagrams.writable.getWriter()
+
+        test.write(new Uint8Array([1, 2, 3]))
+
+        // const new_stream = new ReadableStream("It works!")
+        // console.log(new_stream)
+        // session.datagrams.readable.pipeTo(session.datagrams.writable)
+        // new_stream.pipeTo(session.datagrams.writable)
     } catch (error) {
         console.log('datagram echo exited with', error)
     }
