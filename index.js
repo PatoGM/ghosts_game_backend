@@ -21,8 +21,7 @@ const attrs = [
 
 const path = '../Chase + Pato - Ghosts - Latest/cert.txt'
 
-console.log(__dirname);
-// Prints: /Users/mjr
+// console.log(__dirname);
 console.log(path.dirname(__filename));
 
 try {
